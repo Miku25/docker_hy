@@ -1,0 +1,35 @@
+version: '3.0' 
+
+services:
+    redis:
+      image: redis:alpine
+      expose:
+        - 6379
+    dbhost:
+      image: postgres:alpine
+      expose:
+        - 5432
+      environment:
+        - POSTGRES_USER=anuser
+        - POSTGRES_PASSWORD=apass
+        - POSTGRES_DB=adb
+    nodeback:
+      image: nodeapp-back
+      build:
+        context: ./backend-example-docker
+        dockerfile: Dockerfile
+      environment:
+        - REDIS=redis
+        - DB_USERNAME=anuser
+        - DB_PASSWORD=apass
+        - DB_NAME=adb
+        - DB_HOST=dbhost
+      ports:
+      - 3001:8000
+    nodefront: 
+      image: nodeapp-front
+      build:
+        context: ./frontend-example-docker
+        dockerfile: Dockerfile
+      ports: 
+        - 3000:5000 

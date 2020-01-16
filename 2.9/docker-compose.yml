@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  redis-cache:
+    image: redis
+    container_name: rediscache
+  db:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=anuser
+      - POSTGRES_PASSWORD=apass
+    container_name: dbhost
+  nodefront:
+    build: './frontend'
+    container_name: front
+    ports:
+      - 3000:5000
+  nodeback:
+    build: './backend'
+    volumes:
+      - ./logs.txt:/app/logs.txt
+    environment:
+      - REDIS=rediscache
+      - DB_USERNAME=anuser
+      - DB_PASSWORD=apass 
+      - DB_HOST=dbhost
+    container_name: back
+    ports:
+      - 3001:8000
+    depends_on: 
+      - db
+      
+volumes:
+  data:

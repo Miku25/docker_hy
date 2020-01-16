@@ -1,0 +1,26 @@
+version: '3.0' 
+
+services:
+    redis:
+      image: redis:alpine
+      expose:
+        - 6379
+    nodeback:
+      image: nodeapp-back
+      build:
+        context: ./backend-example-docker
+        dockerfile: Dockerfile
+      environment:
+        - REDIS=redis
+        - FRONT_URL=http://localhost:3000
+      ports:
+      - 3001:8000
+    nodefront: 
+      image: nodeapp-front
+      build:
+        context: ./frontend-example-docker
+        dockerfile: Dockerfile
+      environment:
+        - API_URL=http://localhost:3001
+      ports: 
+        - 3000:5000 

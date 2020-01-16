@@ -1,0 +1,1 @@
+docker run -v C:/Users/35844/Documents/docker/1.8/logs.txt:/usr/app/logs.txt devopsdockeruh/first_volume_exercise

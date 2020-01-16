@@ -1,0 +1,6 @@
+PS C:\Users\35844> docker exec -it 5edd bash
+root@5edd825d7225:/usr/app# tail -f ./logs.txt
+Mon, 13 Jan 2020 19:00:33 GMT
+Mon, 13 Jan 2020 19:00:36 GMT
+Secret message is:
+"Docker is easy"

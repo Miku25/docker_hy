@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  redis-cache:
+    image: redis
+    container_name: rediscache
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=anuser
+      - POSTGRES_PASSWORD=apass
+    container_name: dbhost
+  nodefront:
+    build: './frontend'
+    container_name: front
+  nodeback:
+    build: './backend'
+    volumes:
+      - ./logs.txt:/app/logs.txt
+    environment:
+      - REDIS=rediscache
+      - DB_USERNAME=anuser
+      - DB_PASSWORD=apass 
+      - DB_HOST=dbhost
+    container_name: back
+    depends_on: 
+      - db
+  nginx:
+    image: jwilder/nginx-proxy 
+    volumes: 
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    container_name: rproxy
+    depends_on:
+      - nodefront
+      - nodeback

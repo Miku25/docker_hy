@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+  kurkkumopo-front:
+    image: kurkkumopo-frontend
+    build: 
+      context: ./ml-kurkkumopo-frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+  kurkkumopo-back:
+    image: kurkkumopo-backend
+    build: 
+      context: ./ml-kurkkumopo-backend
+      dockerfile: Dockerfile
+    volumes:
+      - model:/src/model
+    ports:
+      - 5000:5000
+  kurkkumopo-train:
+    image: kurkkumopo-training
+    build: 
+      context: ./ml-kurkkumopo-training
+      dockerfile: Dockerfile
+    volumes:
+      - model:/src/model
+      - images:/src/imgs
+      - data:/src/data
+
+
+volumes:
+  model:
+  images:
+  data:
+  

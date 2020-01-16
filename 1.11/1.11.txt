@@ -1,0 +1,1 @@
+docker run -v C:/Users/35844/Documents/docker/1.11/backend-example-docker/logs.txt:/logs.txt -p 3000:8000 nodeapp

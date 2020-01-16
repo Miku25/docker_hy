@@ -1,0 +1,17 @@
+version: '3.0' 
+
+services: 
+    nodeback:
+      image: nodeapp-back
+      build:
+        context: ./backend-example-docker
+        dockerfile: Dockerfile
+      ports:
+      - 3001:8000
+    nodefront: 
+      image: nodeapp-front
+      build:
+        context: ./frontend-example-docker
+        dockerfile: Dockerfile
+      ports: 
+        - 3000:5000 
